@@ -1,0 +1,25 @@
+{
+  "name": "yesql",
+  "version": "2.5.11",
+  "description": "Read named SQL statements from .sql files",
+  "main": "yesql.js",
+  "scripts": {
+    "test": "oops"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pihvi/yesql.git"
+  },
+  "keywords": [
+    "sql",
+    "pokemon",
+    "growth",
+    "hack"
+  ],
+  "author": "I",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pihvi/yesql/issues"
+  },
+  "homepage": "https://github.com/pihvi/yesql#readme"
+}
