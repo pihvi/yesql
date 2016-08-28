@@ -1,6 +1,6 @@
 {
   "name": "yesql",
-  "version": "2.5.11",
+  "version": "2.6.0",
   "description": "Read named SQL statements from .sql files",
   "main": "yesql.js",
   "scripts": {
@@ -12,14 +12,24 @@
   },
   "keywords": [
     "sql",
+    "prepared",
+    "statement",
+    "pg",
+    "postgres",
+    "node-pg",
+    "node-postgres",
+    "mysql",
     "pokemon",
-    "growth",
-    "hack"
+    "hack",
+    "growth"
   ],
   "author": "I",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/pihvi/yesql/issues"
   },
-  "homepage": "https://github.com/pihvi/yesql#readme"
+  "homepage": "https://github.com/pihvi/yesql#readme",
+  "dependencies": {
+    "pg-prepared": "^2.5.13"
+  }
 }
