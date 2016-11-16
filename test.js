@@ -1,7 +1,20 @@
 var yesql = require('./yesql.js')
+var assert = require('assert-diff')
 
-var pgPokemon = yesql.pg('SELECT * from pokemon WHERE id = ${id};')
-console.log(pgPokemon({id: 5}))
+it('pg', function() {
+  assert.deepEqual(
+    yesql.pg('SELECT * from pokemon WHERE id = ${id};')({id: 5}),
+    {
+      text: 'SELECT * from pokemon WHERE id = $1;',
+      values: [5]
+    })
+})
 
-var mysqlPokemon = yesql.mysql('SELECT * from ::ptable WHERE id = :id;')
-console.log(mysqlPokemon({id: 5, ptable: 'pokemon'}))
+it('mysql', function() {
+  assert.deepEqual(
+    yesql.mysql('SELECT * from ::ptable WHERE id = :id;')({id: 5, ptable: 'pokemon'}),
+    {
+      sql: 'SELECT * from ?? WHERE id = ?;',
+      values: ['pokemon', 5]
+    })
+})

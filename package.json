@@ -4,7 +4,7 @@
   "description": "Read named SQL statements from .sql files. Also named parameters for prepared statements.",
   "main": "yesql.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,9 @@
   "bugs": {
     "url": "https://github.com/pihvi/yesql/issues"
   },
-  "homepage": "https://github.com/pihvi/yesql#readme"
+  "homepage": "https://github.com/pihvi/yesql#readme",
+  "devDependencies": {
+    "assert-diff": "1.1.0",
+    "mocha": "3.1.2"
+  }
 }
