@@ -1,6 +1,5 @@
 var fs = require('fs')
 
-module.exports.pgPreparedStatement = pg
 module.exports = function readSqlFiles(dir, options) {
   var opts = options ? options : {pg: false}
   return fs.readdirSync(dir).filter(function(file) {
@@ -38,3 +37,5 @@ function pg(query) {
     }
   }
 }
+
+module.exports.pgPreparedStatement = pg
