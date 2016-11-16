@@ -18,7 +18,7 @@ INSERT INTO pokemon(name, price)
 
 -- updatePokemon
 UPDATE pokemon
-  SET price=:price; -- PostgreSQL / MySQL named parameter style
+  SET price = :price; -- PostgreSQL / MySQL named parameter style
 ```
 
 ### Raw / SQLite
@@ -63,6 +63,9 @@ pg.query(named('UPDATE pokemon SET price=:price;')({price: 5}), function(err, re
 ```
 
 #### Changelog
+
+##### 3.1.3
+- Fix docs
 
 ##### 3.1.2
 - Fix pg type cast
