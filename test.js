@@ -3,7 +3,7 @@ var assert = require('assert-diff')
 
 it('pg', function() {
   assert.deepEqual(
-    yesql.pg('SELECT * from pokemon WHERE id = ${id};')({id: 5}),
+    yesql.pg('SELECT * from pokemon WHERE id = :id;')({id: 5}),
     {
       text: 'SELECT * from pokemon WHERE id = $1;',
       values: [5]

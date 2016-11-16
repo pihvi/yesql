@@ -1,17 +1,27 @@
-### Read named SQL statements from .sql files
+### Read named SQL statements from .sql files and/or use named parameters in prepared statements.
+- [Statements in .sql files](#read-named-sql-statements-from-sql-files)
+- [Raw SQL / SQLite](#raw--sqlite)
+- [MySQL / MariaDB](#mysql--mariadb)
+- [PostgreSQL](#postgresql)
 
+### Read named SQL statements from .sql files
 Put your statements in a .sql file and name them with a comment above.
 e.g. `/myproject/sql/pokemon.sql`
 ```sql
 -- getPokemon
 SELECT * from pokemon
-  WHERE id = ?;
+  WHERE id = ?; -- raw style
 
 -- addPokemon
 INSERT INTO pokemon(name, price)
-  VALUES ($name, $price);
+  VALUES ($name, $price); -- SQLite named parameter style
+
+-- updatePokemon
+UPDATE pokemon
+  SET price=:price; -- PostgreSQL / MySQL named parameter style
 ```
 
+### Raw / SQLite
 Use them in code by giving the directory where .sql files(s) are
 ```javascript
 var sql = require('yesql')('/myproject/sql/')
@@ -24,18 +34,38 @@ db
   .run({name: 'pikachu', price: 99}, function(err) {...}
 ```
 
-Prepared statements for node-postgres (pg) are supported
-```sql
--- getPokemon
-SELECT * from pokemon WHERE id = ${id};
-```
+### MySQL / MariaDB
+Prepared statements for MySQL / MariaDB are supported
 ```javascript
-var sql = require('yesql')('/myproject/sql/', {pg: true})
+var sql = require('yesql')('/myproject/sql/', {type: 'mysql'})
+var named = require('yesql').mysql
+var mysql = require('mysql').createConnection...
 
-client.query(sql.getPokemon({id: 5}), function(err, result) {...})
+// read from file
+mysql.query(sql.updatePokemon({price: 5}), function(err, result) {...})
+
+// use only named parameters
+mysql.query(named('UPDATE pokemon SET price=:price;')({price: 5}), function(err, result) {...})
+```
+
+### PostgreSQL
+Prepared statements for node-postgres (pg) are supported
+```javascript
+var sql = require('yesql')('/myproject/sql/',  {type: 'pg'})
+var named = require('yesql').pg
+var pg = require('pg').connect...
+
+// read from file
+pg.query(sql.updatePokemon({price: 5}), function(err, result) {...})
+
+// use only named parameters
+pg.query(named('UPDATE pokemon SET price=:price;')({price: 5}), function(err, result) {...})
 ```
 
 #### Changelog
+
+##### 3.1.1
+- Support mysql prepared statements
 
 ##### 2.6.0
 - Support pg prepared statements

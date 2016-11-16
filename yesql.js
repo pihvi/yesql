@@ -14,7 +14,7 @@ module.exports = function readSqlFiles(dir, options) {
     value.content.split('\n\n').forEach(function(sql) {
       if (sql.startsWith('-- ')) {
         var sqlName = sql.split('\n')[0].substring(2).trim()
-        acc[sqlName] = opts.pg ? pg(sql) : sql
+        acc[sqlName] = opts.type ? module.exports[opts.type](sql) : sql
       }
     })
     return acc
@@ -27,7 +27,7 @@ function pg(query) {
   return function(data) {
     var values = []
     return {
-      text: query.replace(/\${(.+?)}/g, function(_, key) {
+      text: query.replace(/:([a-zA-Z0-9_]+)/g, function(_, key) {
         if (key in data) {
           values.push(data[key])
           return '$' + values.length
