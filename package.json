@@ -1,10 +1,10 @@
 {
   "name": "yesql",
-  "version": "2.6.0",
-  "description": "Read named SQL statements from .sql files",
+  "version": "3.1.1",
+  "description": "Read named SQL statements from .sql files. Also named parameters for prepared statements.",
   "main": "yesql.js",
   "scripts": {
-    "test": "oops"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
@@ -12,6 +12,8 @@
   },
   "keywords": [
     "sql",
+    "named",
+    "parameter",
     "prepared",
     "statement",
     "pg",
@@ -23,13 +25,10 @@
     "hack",
     "growth"
   ],
-  "author": "I",
+  "author": "pihvi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/pihvi/yesql/issues"
   },
-  "homepage": "https://github.com/pihvi/yesql#readme",
-  "dependencies": {
-    "pg-prepared": "^2.5.13"
-  }
+  "homepage": "https://github.com/pihvi/yesql#readme"
 }
