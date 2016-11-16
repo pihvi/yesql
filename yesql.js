@@ -20,6 +20,8 @@ module.exports = function readSqlFiles(dir, options) {
     return acc
   }, {})
 }
+module.exports.pg = pg
+module.exports.mysql = mysql
 
 function pg(query) {
   return function(data) {
@@ -38,4 +40,19 @@ function pg(query) {
   }
 }
 
-module.exports.pgPreparedStatement = pg
+function mysql(query) {
+  return function(data) {
+    var values = []
+    return {
+      sql: query.replace(/(::?)([a-zA-Z0-9_]+)/g, function(_, prefix, key) {
+        if (key in data) {
+          values.push(data[key])
+          return prefix.replace(/:/g, '?')
+        } else {
+          throw new Error('Missing value for statement.\n' + key + ' not provided for statement:\n' + query + '\nthis was provided:\n' + JSON.stringify(data))
+        }
+      }),
+      values: values
+    }
+  }
+}
