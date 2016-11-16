@@ -18,3 +18,28 @@ it('mysql', function() {
       values: ['pokemon', 5]
     })
 })
+
+it('mysql from file', function() {
+  var sql = yesql('./', {type: 'mysql'})
+  assert.deepEqual(
+    sql.updatePokemon({price: 6}),
+    {
+      sql: '-- updatePokemon\nUPDATE pokemon SET price=?;\n',
+      values: [6]
+    })
+})
+
+it('pg from file', function() {
+  var sql = yesql('./', {type: 'pg'})
+  assert.deepEqual(
+    sql.updatePokemon({price: 6}),
+    {
+      text: '-- updatePokemon\nUPDATE pokemon SET price=$1;\n',
+      values: [6]
+    })
+})
+
+it('raw from file', function() {
+  var sql = yesql('./')
+  assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;\n')
+})
