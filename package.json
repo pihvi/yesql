@@ -1,6 +1,6 @@
 {
   "name": "yesql",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Read named SQL statements from .sql files. Also named parameters for prepared statements.",
   "main": "yesql.js",
   "scripts": {

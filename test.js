@@ -10,6 +10,15 @@ it('pg', function() {
     })
 })
 
+it('pg type cast', function() {
+  assert.deepEqual(
+    yesql.pg('SELECT id::int FROM user WHERE id=:id;')({id: '5'}),
+    {
+      text: 'SELECT id::int FROM user WHERE id=$1;',
+      values: ['5']
+    })
+})
+
 it('mysql', function() {
   assert.deepEqual(
     yesql.mysql('SELECT * from ::ptable WHERE id = :id;')({id: 5, ptable: 'pokemon'}),

@@ -64,6 +64,9 @@ pg.query(named('UPDATE pokemon SET price=:price;')({price: 5}), function(err, re
 
 #### Changelog
 
+##### 3.1.2
+- Fix pg type cast
+
 ##### 3.1.1
 - Support mysql prepared statements
 
