@@ -45,7 +45,7 @@ var mysql = require('mysql').createConnection...
 mysql.query(sql.updatePokemon({price: 5}), function(err, result) {...})
 
 // use only named parameters
-mysql.query(named('UPDATE pokemon SET price=:price;')({price: 5}), function(err, result) {...})
+mysql.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, result) {...})
 ```
 
 ### PostgreSQL
@@ -59,16 +59,13 @@ var pg = require('pg').connect...
 pg.query(sql.updatePokemon({price: 5}), function(err, result) {...})
 
 // use only named parameters
-pg.query(named('UPDATE pokemon SET price=:price;')({price: 5}), function(err, result) {...})
+pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, result) {...})
 ```
 
 #### Changelog
 
-##### 3.1.3
-- Fix docs
-
-##### 3.1.2
-- Fix pg type cast
+##### 3.1.4
+- Fix pg type cast and docs
 
 ##### 3.1.1
 - Support mysql prepared statements
