@@ -45,7 +45,7 @@ var mysql = require('mysql').createConnection...
 mysql.query(sql.updatePokemon({price: 5}), function(err, result) {...})
 
 // use only named parameters
-mysql.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, result) {...})
+mysql.query(named('UPDATE ::ptable SET price = :price;')({price: 5, ptable: 'pokemon'}), function(err, result) {...})
 ```
 
 ### PostgreSQL
@@ -63,6 +63,9 @@ pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, 
 ```
 
 #### Changelog
+
+##### 3.1.5
+- Add MySQL table name as parameter to example
 
 ##### 3.1.4
 - Fix pg type cast and docs
