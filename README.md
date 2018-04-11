@@ -66,6 +66,9 @@ pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, 
 
 #### Changelog
 
+##### 3.2.0
+- Support Windows new lines
+
 ##### 3.1.6
 - Add CI build and Greenkeeper check
 - Update dev dependencies
