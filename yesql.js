@@ -28,7 +28,7 @@ function pg(query) {
     var values = []
     return {
       text: query.replace(/(::?)([a-zA-Z0-9_]+)/g, function(_, prefix, key) {
-        if (prefix != ':') {
+        if (prefix !== ':') {
           return prefix + key
         } else if (key in data) {
           values.push(data[key])
