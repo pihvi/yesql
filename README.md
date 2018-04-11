@@ -1,4 +1,6 @@
 ### Read named SQL statements from .sql files and/or use named parameters in prepared statements.
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/pihvi/yesql.svg)](https://greenkeeper.io/)
 - [Statements in .sql files](#read-named-sql-statements-from-sql-files)
 - [Raw SQL / SQLite](#raw--sqlite)
 - [MySQL / MariaDB](#mysql--mariadb)
