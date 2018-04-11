@@ -1,3 +1,5 @@
+[![Greenkeeper badge](https://badges.greenkeeper.io/pihvi/yesql.svg)](https://greenkeeper.io/)
+
 ### Read named SQL statements from .sql files and/or use named parameters in prepared statements.
 - [Statements in .sql files](#read-named-sql-statements-from-sql-files)
 - [Raw SQL / SQLite](#raw--sqlite)
@@ -63,6 +65,10 @@ pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, 
 ```
 
 #### Changelog
+
+##### 3.1.6
+- Add CI build and Greenkeeper check
+- Update dev dependencies
 
 ##### 3.1.5
 - Add MySQL table name as parameter to example
