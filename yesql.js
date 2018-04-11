@@ -7,7 +7,9 @@ module.exports = function readSqlFiles(dir, options) {
   }).map(function(file) {
     return {
       name: file,
-      content: fs.readFileSync(dir + file, 'utf8')
+      content: fs
+        .readFileSync(dir + file, 'utf8')
+        .replace(/\r\n/g, '\n')
     }
   }).reduce(function(acc, value) {
     acc[value.name] = value.content
