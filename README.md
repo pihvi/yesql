@@ -1,4 +1,4 @@
-[![Greenkeeper badge](https://badges.greenkeeper.io/pihvi/yesql.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/pihvi/yesql.svg)](https://travis-ci.org/pihvi/yesql)
 
 ### Read named SQL statements from .sql files and/or use named parameters in prepared statements.
 - [Statements in .sql files](#read-named-sql-statements-from-sql-files)
