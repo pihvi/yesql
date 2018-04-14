@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/pihvi/yesql#readme",
   "devDependencies": {
-    "assert-diff": "1.2.5",
+    "assert-diff": "1.2.6",
     "mocha": "5.1.0"
   }
 }
