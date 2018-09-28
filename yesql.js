@@ -1,4 +1,5 @@
 var fs = require('fs')
+var path = require('path')
 
 module.exports = function readSqlFiles(dir, options) {
   var opts = options ? options : {pg: false}
@@ -8,7 +9,7 @@ module.exports = function readSqlFiles(dir, options) {
     return {
       name: file,
       content: fs
-        .readFileSync(dir + file, 'utf8')
+        .readFileSync(path.resolve(dir, file), 'utf8')
         .replace(/\r\n/g, '\n')
     }
   }).reduce(function(acc, value) {
