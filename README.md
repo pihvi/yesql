@@ -66,6 +66,10 @@ pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, 
 
 #### Changelog
 
+##### 3.2.2
+- Allow missing slash on directory path
+- Thanks @critocrito https://github.com/pihvi/yesql/pull/9
+
 ##### 3.2.1
 - Add security build and badge
 - Update deps
