@@ -34,5 +34,8 @@
   "devDependencies": {
     "assert-diff": "2.0.3",
     "mocha": "5.2.0"
+  },
+  "dependencies": {
+    "mock-fs": "^4.7.0"
   }
 }
