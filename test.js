@@ -1,5 +1,6 @@
 var yesql = require('./yesql.js')
 var assert = require('assert-diff')
+var mockFs = require('mock-fs');
 
 it('pg', function() {
   assert.deepEqual(
@@ -51,4 +52,17 @@ it('pg from file', function() {
 it('raw from file', function() {
   var sql = yesql('./')
   assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;\n')
+})
+
+it('parses files from a directory without trailing slash', function() {
+  mockFs({
+    './sqls': {
+      'one.sql': '-- updatePokemon\nUPDATE pokemon SET price=$1;\n',
+      'two.sql': '-- updateTransformer\nUPDATE transformer SET price=$1;\n'
+    }
+  })
+
+  var sql = yesql('./sqls')
+
+  mockFs.restore()
 })
