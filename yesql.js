@@ -35,7 +35,7 @@ function pg(query, opt={}) {
           return prefix + key
         } else if (key in data || opt.ignoreMissing) {
           values.push(data[key])
-          return '$' + values.length          
+          return '$' + values.length
         } else {
           throw new Error('Missing value for statement.\n' + key + ' not provided for statement:\n' + query + '\nthis was provided:\n' + JSON.stringify(data))
         }
