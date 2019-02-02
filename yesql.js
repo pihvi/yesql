@@ -26,16 +26,16 @@ module.exports = function readSqlFiles(dir, options) {
 module.exports.pg = pg
 module.exports.mysql = mysql
 
-function pg(query) {
+function pg(query, opt={}) {
   return function(data) {
     var values = []
     return {
       text: query.replace(/(::?)([a-zA-Z0-9_]+)/g, function(_, prefix, key) {
         if (prefix !== ':') {
           return prefix + key
-        } else if (key in data) {
+        } else if (key in data || opt.ignoreMissing) {
           values.push(data[key])
-          return '$' + values.length
+          return '$' + values.length          
         } else {
           throw new Error('Missing value for statement.\n' + key + ' not provided for statement:\n' + query + '\nthis was provided:\n' + JSON.stringify(data))
         }
