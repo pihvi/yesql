@@ -1,20 +1,20 @@
 const fs = require('fs')
 const path = require('path')
 
-module.exports = function readSqlFiles(dir, options) {
+const readSqlFiles = (dir, options) => {
   const opts = options ? options : {pg: false}
-  return fs.readdirSync(dir).filter(function(file) {
+  return fs.readdirSync(dir).filter(file => {
     return file.endsWith('.sql')
-  }).map(function(file) {
+  }).map(file => {
     return {
       name: file,
       content: fs
         .readFileSync(path.resolve(dir, file), 'utf8')
         .replace(/\r\n/g, '\n')
     }
-  }).reduce(function(acc, value) {
+  }).reduce((acc, value) => {
     acc[value.name] = value.content
-    value.content.split('\n\n').forEach(function(sql) {
+    value.content.split('\n\n').forEach(sql => {
       if (sql.startsWith('-- ')) {
         const sqlName = sql.split('\n')[0].substring(2).trim()
         acc[sqlName] = opts.type ? module.exports[opts.type](sql) : sql
@@ -23,14 +23,12 @@ module.exports = function readSqlFiles(dir, options) {
     return acc
   }, {})
 }
-module.exports.pg = pg
-module.exports.mysql = mysql
 
-function pg(query) {
-  return function(data) {
+const pg = query => {
+  return data => {
     const values = []
     return {
-      text: query.replace(/(::?)([a-zA-Z0-9_]+)/g, function(_, prefix, key) {
+      text: query.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
         if (prefix !== ':') {
           return prefix + key
         } else if (key in data) {
@@ -45,11 +43,11 @@ function pg(query) {
   }
 }
 
-function mysql(query) {
-  return function(data) {
+const mysql = query => {
+  return data => {
     const values = []
     return {
-      sql: query.replace(/(::?)([a-zA-Z0-9_]+)/g, function(_, prefix, key) {
+      sql: query.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
         if (key in data) {
           values.push(data[key])
           return prefix.replace(/:/g, '?')
@@ -61,3 +59,7 @@ function mysql(query) {
     }
   }
 }
+
+module.exports = readSqlFiles
+module.exports.pg = pg
+module.exports.mysql = mysql

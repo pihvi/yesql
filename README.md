@@ -29,11 +29,11 @@ Use them in code by giving the directory where .sql files(s) are
 const sql = require('yesql')('/myproject/sql/')
 const db = new sqlite3.Database('/myproject/sql/db.sqlite3')
 
-db.all(sql.getPokemon, 1337, function(err, rows) {...})
+db.all(sql.getPokemon, 1337, (err, rows) => {...})
 
 db
   .prepare(sql.addPokemon)
-  .run({name: 'pikachu', price: 99}, function(err) {...}
+  .run({name: 'pikachu', price: 99}, err => {...}
 ```
 
 ### MySQL / MariaDB
@@ -44,10 +44,10 @@ const named = require('yesql').mysql
 const mysql = require('mysql').createConnection...
 
 // read from file
-mysql.query(sql.updatePokemon({price: 5}), function(err, result) {...})
+mysql.query(sql.updatePokemon({price: 5}), (err, result) => {...})
 
 // use only named parameters
-mysql.query(named('UPDATE ::ptable SET price = :price;')({price: 5, ptable: 'pokemon'}), function(err, result) {...})
+mysql.query(named('UPDATE ::ptable SET price = :price;')({price: 5, ptable: 'pokemon'}), (err, result) => {...})
 ```
 
 ### PostgreSQL
@@ -58,10 +58,10 @@ const named = require('yesql').pg
 const pg = require('pg').connect...
 
 // read from file
-pg.query(sql.updatePokemon({price: 5}), function(err, result) {...})
+pg.query(sql.updatePokemon({price: 5}), (err, result) => {...})
 
 // use only named parameters
-pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), function(err, result) {...})
+pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), (err, result) => {...})
 ```
 
 #### Changelog
