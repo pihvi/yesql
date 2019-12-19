@@ -52,5 +52,5 @@ it('pg from file', () => {
 it('raw from file', () => {
   const sql = yesql('./')
   assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;')
-  assert.equal(sql.dual, '--dual\nselect * from dual;\n')
+  assert.equal(sql.dual, ' --dual\nselect * from dual;\n')
 })
