@@ -1,7 +1,7 @@
 const yesql = require('./yesql.js')
 const assert = require('assert-diff')
 
-it('pg', function() {
+it('pg simple one parameter', function() {
   assert.deepEqual(
     yesql.pg('SELECT * from pokemon WHERE id = :id;')({id: 5}),
     {
@@ -10,13 +10,14 @@ it('pg', function() {
     })
 })
 
-it('pg type cast', function() {
-  assert.deepEqual(
-    yesql.pg('SELECT id::int FROM user WHERE id=:id;')({id: '5'}),
-    {
-      text: 'SELECT id::int FROM user WHERE id=$1;',
-      values: ['5']
-    })
+it('pg type cast with multiple parameters', function() {
+  const query = 'SELECT id::int FROM user WHERE id=:id and born > :year;'
+  const data = {id: '5', year: 2000}
+  const expected = {
+    text: 'SELECT id::int FROM user WHERE id=$1 and born > $2;',
+    values: ['5', 2000]
+  };
+  assert.deepEqual(yesql.pg(query)(data), expected)
 })
 
 it('mysql', function() {
