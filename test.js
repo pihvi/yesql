@@ -20,6 +20,16 @@ it('pg type cast with multiple parameters', () => {
   assert.deepEqual(yesql.pg(query)(data), expected)
 })
 
+it('pg date format https://github.com/pihvi/yesql/issues/13', () => {
+  const query = `select name, value, to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') from table1 where created_at > :from and created_at <= :to;`
+  const data = {from: new Date(0), to: new Date()}
+  const expected = {
+    text: `select name, value, to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') from table1 where created_at > $1 and created_at <= $2;`,
+    values: [data.from, data.to]
+  };
+  assert.deepEqual(yesql.pg(query)(data), expected)
+})
+
 it('mysql', () => {
   assert.deepEqual(
     yesql.mysql('SELECT * from ::ptable WHERE id = :id;')({id: 5, ptable: 'pokemon'}),
