@@ -66,6 +66,10 @@ pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), (err, result) 
 
 #### Changelog
 
+##### 4.0.0
+- Moderner JS with arrow functions and consts
+- Support PG date format function https://github.com/pihvi/yesql/issues/13
+
 ##### 3.2.2
 - Allow missing slash on directory path
 - Thanks @critocrito https://github.com/pihvi/yesql/pull/9
