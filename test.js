@@ -1,5 +1,5 @@
-var yesql = require('./yesql.js')
-var assert = require('assert-diff')
+const yesql = require('./yesql.js')
+const assert = require('assert-diff')
 
 it('pg', function() {
   assert.deepEqual(
@@ -29,7 +29,7 @@ it('mysql', function() {
 })
 
 it('mysql from file', function() {
-  var sql = yesql('./', {type: 'mysql'})
+  const sql = yesql('./', {type: 'mysql'})
   assert.deepEqual(
     sql.updatePokemon({price: 6}),
     {
@@ -39,7 +39,7 @@ it('mysql from file', function() {
 })
 
 it('pg from file', function() {
-  var sql = yesql('./', {type: 'pg'})
+  const sql = yesql('./', {type: 'pg'})
   assert.deepEqual(
     sql.updatePokemon({price: 6}),
     {
@@ -49,6 +49,6 @@ it('pg from file', function() {
 })
 
 it('raw from file', function() {
-  var sql = yesql('./')
+  const sql = yesql('./')
   assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;\n')
 })

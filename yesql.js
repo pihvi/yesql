@@ -1,8 +1,8 @@
-var fs = require('fs')
-var path = require('path')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = function readSqlFiles(dir, options) {
-  var opts = options ? options : {pg: false}
+  const opts = options ? options : {pg: false}
   return fs.readdirSync(dir).filter(function(file) {
     return file.endsWith('.sql')
   }).map(function(file) {
@@ -16,7 +16,7 @@ module.exports = function readSqlFiles(dir, options) {
     acc[value.name] = value.content
     value.content.split('\n\n').forEach(function(sql) {
       if (sql.startsWith('-- ')) {
-        var sqlName = sql.split('\n')[0].substring(2).trim()
+        const sqlName = sql.split('\n')[0].substring(2).trim()
         acc[sqlName] = opts.type ? module.exports[opts.type](sql) : sql
       }
     })
@@ -28,7 +28,7 @@ module.exports.mysql = mysql
 
 function pg(query) {
   return function(data) {
-    var values = []
+    const values = []
     return {
       text: query.replace(/(::?)([a-zA-Z0-9_]+)/g, function(_, prefix, key) {
         if (prefix !== ':') {
@@ -47,7 +47,7 @@ function pg(query) {
 
 function mysql(query) {
   return function(data) {
-    var values = []
+    const values = []
     return {
       sql: query.replace(/(::?)([a-zA-Z0-9_]+)/g, function(_, prefix, key) {
         if (key in data) {

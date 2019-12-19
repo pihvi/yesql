@@ -26,8 +26,8 @@ UPDATE pokemon
 ### Raw / SQLite
 Use them in code by giving the directory where .sql files(s) are
 ```javascript
-var sql = require('yesql')('/myproject/sql/')
-var db = new sqlite3.Database('/myproject/sql/db.sqlite3')
+const sql = require('yesql')('/myproject/sql/')
+const db = new sqlite3.Database('/myproject/sql/db.sqlite3')
 
 db.all(sql.getPokemon, 1337, function(err, rows) {...})
 
@@ -39,9 +39,9 @@ db
 ### MySQL / MariaDB
 Prepared statements for MySQL / MariaDB are supported
 ```javascript
-var sql = require('yesql')('/myproject/sql/', {type: 'mysql'})
-var named = require('yesql').mysql
-var mysql = require('mysql').createConnection...
+const sql = require('yesql')('/myproject/sql/', {type: 'mysql'})
+const named = require('yesql').mysql
+const mysql = require('mysql').createConnection...
 
 // read from file
 mysql.query(sql.updatePokemon({price: 5}), function(err, result) {...})
@@ -53,9 +53,9 @@ mysql.query(named('UPDATE ::ptable SET price = :price;')({price: 5, ptable: 'pok
 ### PostgreSQL
 Prepared statements for node-postgres (pg) are supported
 ```javascript
-var sql = require('yesql')('/myproject/sql/',  {type: 'pg'})
-var named = require('yesql').pg
-var pg = require('pg').connect...
+const sql = require('yesql')('/myproject/sql/',  {type: 'pg'})
+const named = require('yesql').pg
+const pg = require('pg').connect...
 
 // read from file
 pg.query(sql.updatePokemon({price: 5}), function(err, result) {...})
