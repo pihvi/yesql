@@ -15,7 +15,7 @@ const readSqlFiles = (dir, options) => {
   }).reduce((acc, value) => {
     acc[value.name] = value.content
     value.content.split('\n\n').forEach(sql => {
-      if (sql.startsWith('-- ')) {
+      if (sql.startsWith('--')) {
         const sqlName = sql.split('\n')[0].substring(2).trim()
         acc[sqlName] = opts.type ? module.exports[opts.type](sql) : sql
       }

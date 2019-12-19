@@ -8,3 +8,6 @@ INSERT INTO pokemon(name, price)
 
 -- updatePokemon
 UPDATE pokemon SET price=:price;
+
+--dual
+select * from dual;

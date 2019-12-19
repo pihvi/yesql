@@ -34,7 +34,7 @@ it('mysql from file', () => {
   assert.deepEqual(
     sql.updatePokemon({price: 6}),
     {
-      sql: '-- updatePokemon\nUPDATE pokemon SET price=?;\n',
+      sql: '-- updatePokemon\nUPDATE pokemon SET price=?;',
       values: [6]
     })
 })
@@ -44,12 +44,13 @@ it('pg from file', () => {
   assert.deepEqual(
     sql.updatePokemon({price: 6}),
     {
-      text: '-- updatePokemon\nUPDATE pokemon SET price=$1;\n',
+      text: '-- updatePokemon\nUPDATE pokemon SET price=$1;',
       values: [6]
     })
 })
 
 it('raw from file', () => {
   const sql = yesql('./')
-  assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;\n')
+  assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;')
+  assert.equal(sql.dual, '--dual\nselect * from dual;\n')
 })
