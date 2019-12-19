@@ -35,7 +35,7 @@ const pg = query => {
           values.push(data[key])
           return '$' + values.length
         } else {
-          throw new Error('Missing value for statement.\n' + key + ' not provided for statement:\n' + query + '\nthis was provided:\n' + JSON.stringify(data))
+          return errorMissingValue(key, query, data)
         }
       }),
       values: values
@@ -52,12 +52,16 @@ const mysql = query => {
           values.push(data[key])
           return prefix.replace(/:/g, '?')
         } else {
-          throw new Error('Missing value for statement.\n' + key + ' not provided for statement:\n' + query + '\nthis was provided:\n' + JSON.stringify(data))
+          return errorMissingValue(key, query, data)
         }
       }),
       values: values
     }
   }
+}
+
+const errorMissingValue = (key, query, data) => {
+  throw new Error('Missing value for statement.\n' + key + ' not provided for statement:\n' + query + '\nthis was provided:\n' + JSON.stringify(data))
 }
 
 module.exports = readSqlFiles
