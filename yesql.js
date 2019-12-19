@@ -1,8 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const readSqlFiles = (dir, options) => {
-  const opts = options ? options : {pg: false}
+const readSqlFiles = (dir, options = {}) => {
   return fs.readdirSync(dir).filter(file => {
     return file.endsWith('.sql')
   }).map(file => {
@@ -17,7 +16,7 @@ const readSqlFiles = (dir, options) => {
     value.content.split('\n\n').forEach(sql => {
       if (sql.trim().startsWith('--')) {
         const sqlName = sql.split('\n')[0].trim().substring(2).trim()
-        acc[sqlName] = opts.type ? module.exports[opts.type](sql) : sql
+        acc[sqlName] = options.type ? module.exports[options.type](sql) : sql
       }
     })
     return acc
