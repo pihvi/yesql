@@ -88,6 +88,10 @@ it('mysql with nulls for missing', () => {
     sql: '-- updatePokemon\nUPDATE pokemon SET price=?;',
     values: [null]
   })
+  assert.deepEqual(yesql('./', {type: 'mysql', useNullForMissing: true}).updatePokemon(), {
+    sql: '-- updatePokemon\nUPDATE pokemon SET price=?;',
+    values: [null]
+  })
 })
 
 it('pg with nulls for missing', () => {
@@ -98,6 +102,10 @@ it('pg with nulls for missing', () => {
     values: [5, null]
   })
   assert.deepEqual(yesql('./', {type: 'pg', useNullForMissing: true}).updatePokemon({}), {
+    text: '-- updatePokemon\nUPDATE pokemon SET price=$1;',
+    values: [null]
+  })
+  assert.deepEqual(yesql('./', {type: 'pg', useNullForMissing: true}).updatePokemon(), {
     text: '-- updatePokemon\nUPDATE pokemon SET price=$1;',
     values: [null]
   })

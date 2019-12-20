@@ -24,7 +24,7 @@ const readSqlFiles = (dir, options = {}) => {
 }
 
 const pg = (query, options = {}) => {
-  return data => {
+  return (data = {}) => {
     const values = []
     return {
       text: query.replace(/([a-zA-Z0-9.,:]*:)([a-zA-Z0-9_]+)/g, (match, prefix, key) => {
@@ -46,7 +46,7 @@ const pg = (query, options = {}) => {
 }
 
 const mysql = (query, options = {}) => {
-  return data => {
+  return (data = {}) => {
     const values = []
     return {
       sql: query.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
