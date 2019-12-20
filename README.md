@@ -5,6 +5,7 @@
 - [Raw SQL / SQLite](#raw--sqlite)
 - [MySQL / MariaDB](#mysql--mariadb)
 - [PostgreSQL](#postgresql)
+- [Handling missing parameters](#handling-missing-parameters)
 
 ### Read named SQL statements from .sql files
 Put your statements in a .sql file and name them with a comment above.
@@ -64,7 +65,26 @@ pg.query(sql.updatePokemon({price: 5}), (err, result) => {...})
 pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), (err, result) => {...})
 ```
 
+### Handling missing parameters
+By default MySQL and PG versions throw an error if a parameter is not given.
+Passing a flag "useNullForMissing" a null value is used instead.
+Example only for PG, but works for MySQL also. 
+```javascript
+const sql = require('yesql')('/myproject/sql/',  {type: 'pg', useNullForMissing: true})
+const named = require('yesql').pg
+const pg = require('pg').connect...
+
+// read from file and insert null values for missing parameters (price)
+pg.query(sql.updatePokemon(), (err, result) => {...})
+
+// use only named parameters with nulls for missing values
+pg.query(named('UPDATE pokemon SET price = :price;', {useNullForMissing: true})({}), (err, result) => {...})
+```
+
 #### Changelog
+
+##### 4.1.0
+- With "useNullForMissing" flag enabled, use null for missing parameter https://github.com/pihvi/yesql/pull/10
 
 ##### 4.0.0
 - Moderner JS with arrow functions and consts
