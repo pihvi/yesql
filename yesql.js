@@ -16,14 +16,14 @@ const readSqlFiles = (dir, options = {}) => {
     value.content.split('\n\n').forEach(sql => {
       if (sql.trim().startsWith('--')) {
         const sqlName = sql.split('\n')[0].trim().substring(2).trim()
-        acc[sqlName] = options.type ? module.exports[options.type](sql) : sql
+        acc[sqlName] = options.type ? module.exports[options.type](sql, options) : sql
       }
     })
     return acc
   }, {})
 }
 
-const pg = query => {
+const pg = (query, options = {}) => {
   return data => {
     const values = []
     return {
@@ -32,6 +32,9 @@ const pg = query => {
           return match
         } else if (key in data) {
           values.push(data[key])
+          return '$' + values.length
+        } else if (options.useNullForMissing) {
+          values.push(null)
           return '$' + values.length
         } else {
           return errorMissingValue(key, query, data)
@@ -42,13 +45,16 @@ const pg = query => {
   }
 }
 
-const mysql = query => {
+const mysql = (query, options = {}) => {
   return data => {
     const values = []
     return {
       sql: query.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
         if (key in data) {
           values.push(data[key])
+          return prefix.replace(/:/g, '?')
+        } else if (options.useNullForMissing) {
+          values.push(null)
           return prefix.replace(/:/g, '?')
         } else {
           return errorMissingValue(key, query, data)

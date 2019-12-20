@@ -64,3 +64,41 @@ it('raw from file', () => {
   assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;')
   assert.equal(sql.dual, ' --dual\nselect * from dual;\n')
 })
+
+it('Missing parameter throws error', () => {
+  ['pg', 'mysql'].forEach(type => {
+    let msg = ''
+    try {
+      yesql.pg('select * from persons where name=:name;')({})
+    } catch (e) {
+      msg = e.message
+    }
+    assert(msg.startsWith('Missing value for statement.\nname'))
+  })
+})
+
+it('mysql with nulls for missing', () => {
+  const query = 'SELECT * from pokemon WHERE id = :id and name=:name;'
+  const options = {useNullForMissing: true}
+  assert.deepEqual(yesql.mysql(query, options)({id: 5}), {
+    sql: 'SELECT * from pokemon WHERE id = ? and name=?;',
+    values: [5, null]
+  })
+  assert.deepEqual(yesql('./', {type: 'mysql', useNullForMissing: true}).updatePokemon({}), {
+    sql: '-- updatePokemon\nUPDATE pokemon SET price=?;',
+    values: [null]
+  })
+})
+
+it('pg with nulls for missing', () => {
+  const query = 'SELECT * from pokemon WHERE id = :id and name=:name;'
+  const options = {useNullForMissing: true}
+  assert.deepEqual(yesql.pg(query, options)({id: 5}), {
+    text: 'SELECT * from pokemon WHERE id = $1 and name=$2;',
+    values: [5, null]
+  })
+  assert.deepEqual(yesql('./', {type: 'pg', useNullForMissing: true}).updatePokemon({}), {
+    text: '-- updatePokemon\nUPDATE pokemon SET price=$1;',
+    values: [null]
+  })
+})
