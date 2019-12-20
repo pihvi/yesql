@@ -68,7 +68,7 @@ pg.query(named('UPDATE pokemon SET price = :price;')({price: 5}), (err, result) 
 ### Handling missing parameters
 By default MySQL and PG versions throw an error if a parameter is not given.
 Passing a flag "useNullForMissing" a null value is used instead.
-Example only for PG, but works for MySQL also. 
+Example only for PG, but works for MySQL also.
 ```javascript
 const sql = require('yesql')('/myproject/sql/',  {type: 'pg', useNullForMissing: true})
 const named = require('yesql').pg
@@ -84,11 +84,13 @@ pg.query(named('UPDATE pokemon SET price = :price;', {useNullForMissing: true})(
 #### Changelog
 
 ##### 4.1.0
-- With "useNullForMissing" flag enabled, use null for missing parameter https://github.com/pihvi/yesql/pull/10
+- With "useNullForMissing" flag enabled, use null for missing parameter
+- Thanks @dwelch2344 https://github.com/pihvi/yesql/pull/10
 
 ##### 4.0.0
 - Moderner JS with arrow functions and consts
-- Support PG date format function https://github.com/pihvi/yesql/issues/13
+- Support PG date format function
+- Thanks @ericxinzhang https://github.com/pihvi/yesql/issues/13
 
 ##### 3.2.2
 - Allow missing slash on directory path
