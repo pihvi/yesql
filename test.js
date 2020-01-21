@@ -110,3 +110,23 @@ it('pg with nulls for missing', () => {
     values: [null]
   })
 })
+
+it('pg with insert and close by placeholders', () => {
+  const query = 'INSERT INTO pokemon (name, price) VALUES(:name,:price) RETURNING *';
+  const res = yesql.pg(query)({name: 'pikachu', price: 1337})
+
+  assert.deepEqual(res, {
+    text: 'INSERT INTO pokemon (name, price) VALUES($1,$2) RETURNING *',
+    values: ['pikachu', 1337]
+  })
+})
+
+it('mysql with insert and close by placeholders', () => {
+  const query = 'INSERT INTO pokemon (name, price) VALUES(:name,:price)';
+  const res = yesql.mysql(query)({name: 'pikachu', price: 1337})
+
+  assert.deepEqual(res, {
+    sql: 'INSERT INTO pokemon (name, price) VALUES(?,?)',
+    values: ['pikachu', 1337]
+  })
+})
