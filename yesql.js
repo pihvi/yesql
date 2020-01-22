@@ -27,7 +27,7 @@ const pg = (query, options = {}) => {
   return (data = {}) => {
     const values = []
     return {
-      text: query.replace(/([a-zA-Z0-9.,:]*:)([a-zA-Z0-9_]+)/g, (match, prefix, key) => {
+      text: query.replace(/([a-zA-Z0-9.:]*:)([a-zA-Z0-9_]+)/g, (match, prefix, key) => {
         if (prefix !== ':') {
           return match
         } else if (key in data) {
