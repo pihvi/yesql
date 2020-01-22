@@ -130,3 +130,33 @@ it('mysql with insert and close by placeholders', () => {
     values: ['pikachu', 1337]
   })
 })
+
+it('PG type cast with spaces', () => {
+  const query = "SELECT TO_CHAR(NOW() :: DATE, 'dd/mm/yyyy');";
+  const res = yesql.pg(query)()
+
+  assert.deepEqual(res, {
+    text: "SELECT TO_CHAR(NOW() :: DATE, 'dd/mm/yyyy');",
+    values: []
+  })
+})
+
+it('PG to char date format', () => {
+  const query = "select to_char(current_timestamp, 'Day, DD  HH12:MI:SS')";
+  const res = yesql.pg(query)()
+
+  assert.deepEqual(res, {
+    text: "select to_char(current_timestamp, 'Day, DD  HH12:MI:SS')",
+    values: []
+  })
+})
+
+it('PG to char number format', () => {
+  const query = `select to_char(:num, '"Pre:"999" Post:" .999');`;
+  const res = yesql.pg(query)({num: 485.8})
+
+  assert.deepEqual(res, {
+    text: `select to_char($1, '"Pre:"999" Post:" .999');`,
+    values: [485.8]
+  })
+})
