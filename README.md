@@ -83,6 +83,10 @@ pg.query(named('UPDATE pokemon SET price = :price;', {useNullForMissing: true})(
 
 #### Changelog
 
+##### 4.1.1
+- Fix close by parameter names in PG
+- Thanks @rockdriven https://github.com/pihvi/yesql/issues/14
+
 ##### 4.1.0
 - With "useNullForMissing" flag enabled, use null for missing parameter
 - Thanks @dwelch2344 https://github.com/pihvi/yesql/pull/10
