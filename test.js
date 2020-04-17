@@ -20,6 +20,26 @@ it('pg type cast with multiple parameters', () => {
   assert.deepEqual(yesql.pg(query)(data), expected)
 })
 
+it('pg bind variable with type cast', () => {
+  const query = 'SELECT id::int FROM user WHERE id=:id::int and born > :year;'
+  const data = {id: 1, year: 2000}
+  const expected = {
+    text: 'SELECT id::int FROM user WHERE id=$1::int and born > $2;',
+    values: [1, 2000]
+  };
+  assert.deepEqual(yesql.pg(query)(data), expected)
+})
+
+it('pg bind array using ANY clause with type cast', () => {
+  const query = 'SELECT id::int FROM user WHERE id=any(:idList::int[]) and born > :year;'
+  const data = {idList: [1, 2, 3], year: 2000}
+  const expected = {
+    text: 'SELECT id::int FROM user WHERE id=any($1::int[]) and born > $2;',
+    values: [[1, 2, 3], 2000]
+  };
+  assert.deepEqual(yesql.pg(query)(data), expected)
+})
+
 it('pg date format https://github.com/pihvi/yesql/issues/13', () => {
   const query = `select name, value, to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') from table1 where created_at > :from and created_at <= :to;`
   const data = {from: new Date(0), to: new Date()}
