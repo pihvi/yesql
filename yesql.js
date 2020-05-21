@@ -25,22 +25,32 @@ const readSqlFiles = (dir, options = {}) => {
 
 const pg = (query, options = {}) => {
   return (data = {}) => {
+    const matchQuoted = /'([^'\\]*(\\.[^'\\]*)*)'/
     const values = []
-    return {
-      text: query.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
-        if (prefix !== ':') {
-          return prefix + key
-        } else if (key in data) {
-          values.push(data[key])
-          return '$' + values.length
-        } else if (options.useNullForMissing) {
-          values.push(null)
-          return '$' + values.length
+    const text = query
+      .split(matchQuoted)
+      .map(part => {
+        if (matchQuoted.test(part)) {
+          return part
         } else {
-          return errorMissingValue(key, query, data)
+          return query.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
+            if (prefix !== ':') {
+              return prefix + key
+            } else if (key in data) {
+              values.push(data[key])
+              return '$' + values.length
+            } else if (options.useNullForMissing) {
+              values.push(null)
+              return '$' + values.length
+            } else {
+              return errorMissingValue(key, query, data)
+            }
+          })
         }
-      }),
-      values: values
+      })
+      .join('')
+    return {
+      text, values
     }
   }
 }
