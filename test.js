@@ -180,3 +180,13 @@ it('PG to char number format', () => {
     values: [485.8]
   })
 })
+
+it('PG multiple quoted strings', () => {
+  const query = `select to_char(:num, '"Pre:"999" :skipthis Post:" .999'), TO_CHAR(NOW() :: DATE, 'dd/mm/yyyy') from boom WHERE pow = :pow;`;
+  const res = yesql.pg(query)({num: 485.8, pow: 'kaboom'})
+
+  assert.deepEqual(res, {
+    text: `select to_char($1, '"Pre:"999" :skipthis Post:" .999'), TO_CHAR(NOW() :: DATE, 'dd/mm/yyyy') from boom WHERE pow = $2;`,
+    values: [485.8, 'kaboom']
+  })
+})
