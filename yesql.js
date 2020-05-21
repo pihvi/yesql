@@ -25,12 +25,12 @@ const readSqlFiles = (dir, options = {}) => {
 
 const pg = (query, options = {}) => {
   return (data = {}) => {
-    const matchQuoted = /('\\.|[^']*')/
+    const matchQuoted = /('[^'\\]*(\\.[^'\\]*)*')/
     const values = []
     const text = query
       .split(matchQuoted)
       .map(part => {
-        if (matchQuoted.test(part)) {
+        if (!part || matchQuoted.test(part)) {
           return part
         } else {
           return part.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
