@@ -190,3 +190,13 @@ it('PG multiple quoted strings', () => {
     values: [485.8, 'kaboom']
   })
 })
+
+it('PG double quoted strings with colon', () => {
+  const query = 'SELECT :userid::integer as "User:Id"';
+  const res = yesql.pg(query)({userid: 5})
+
+  assert.deepEqual(res, {
+    text: `SELECT $1::integer as "User:Id"`,
+    values: [5]
+  })
+})
