@@ -83,6 +83,10 @@ pg.query(named('UPDATE pokemon SET price = :price;', {useNullForMissing: true})(
 
 #### Changelog
 
+##### 4.1.3
+- Support fully double quoted strings
+- thanks @AcerLaurinum  https://github.com/pihvi/yesql/issues/22
+
 ##### 4.1.2
 - Support fully quoted strings
 - Fix regression, thanks @besk-cerity https://github.com/pihvi/yesql/issues/18
