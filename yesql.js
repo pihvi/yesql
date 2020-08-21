@@ -25,6 +25,11 @@ const readSqlFiles = (dir, options = {}) => {
 
 const pg = (query, options = {}) => {
   return (data = {}) => {
+
+    // sanitize comments
+    query = query.replace(/--[^\n]*$/gm, '')
+    query = query.replace(/\/\*[^\*\/]*\*\//gm, '')
+
     const matchQuoted = /('[^'\\]*(\\.[^'\\]*)*')/
     const matchDoubleQuoted = /("[^"\\]*(\\.[^"\\]*)*")/
     const values = []
