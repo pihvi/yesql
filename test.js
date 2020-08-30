@@ -83,6 +83,8 @@ it('raw from file', () => {
   const sql = yesql('./')
   assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;')
   assert.equal(sql.dual, ' --dual\nselect * from dual;\n')
+  let boom = sql.comments
+  assert.equal(sql.comments, '-- comments\nselect\n    :foo ::INT,\n    -- TODO do not hard code this eventually\n    :bar ::INT,\n    -- TODO I suppose we are ok now\n\n    :bar::INT,\n\n    /*\n    now we are really asking for it\n    */\n    :foo ::INT')
 })
 
 it('Missing parameter throws error', () => {

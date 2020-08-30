@@ -13,12 +13,21 @@ const readSqlFiles = (dir, options = {}) => {
     }
   }).reduce((acc, value) => {
     acc[value.name] = value.content
-    value.content.split('\n\n').forEach(sql => {
-      if (sql.trim().startsWith('--')) {
-        const sqlName = sql.split('\n')[0].trim().substring(2).trim()
-        acc[sqlName] = options.type ? module.exports[options.type](sql, options) : sql
-      }
-    })
+    value.content.split('\n\n')
+      .reduce((sqls, lines) => {
+        if (lines.trim().startsWith('--')) {
+          sqls.push(lines)
+        } else if (sqls.length) {
+          sqls[sqls.length - 1] += '\n\n' + lines
+        }
+        return sqls
+      }, [])
+      .forEach(sql => {
+        if (sql.trim().startsWith('--')) {
+          const sqlName = sql.split('\n')[0].trim().substring(2).trim()
+          acc[sqlName] = options.type ? module.exports[options.type](sql, options) : sql
+        }
+      })
     return acc
   }, {})
 }
