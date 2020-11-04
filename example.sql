@@ -11,3 +11,9 @@ UPDATE pokemon SET price=:price;
 
  --dual
 select * from dual;
+
+-- duplicateUpdate
+UPDATE pokemon SET price=:price;
+
+-- duplicateUpdate
+UPDATE pokemon SET price=:price;

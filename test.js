@@ -82,7 +82,7 @@ it('pg from file', () => {
 it('raw from file', () => {
   const sql = yesql('./')
   assert.equal(sql.updatePokemon, '-- updatePokemon\nUPDATE pokemon SET price=:price;')
-  assert.equal(sql.dual, ' --dual\nselect * from dual;\n')
+  assert.equal(sql.dual, ' --dual\nselect * from dual;')
 })
 
 it('Missing parameter throws error', () => {
@@ -200,3 +200,13 @@ it('PG double quoted strings with colon', () => {
     values: [5]
   })
 })
+it('strict should fail when same name appears more than 1', () => {
+  try {
+    const sql = yesql('./', { strict: true })
+  } catch(err) {
+    assert.equal(err.message, 'Name duplicateUpdate already exists');
+    return;
+  }
+  throw new Error('Should have not reached here');
+})
+

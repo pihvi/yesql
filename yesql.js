@@ -16,7 +16,12 @@ const readSqlFiles = (dir, options = {}) => {
     value.content.split('\n\n').forEach(sql => {
       if (sql.trim().startsWith('--')) {
         const sqlName = sql.split('\n')[0].trim().substring(2).trim()
-        acc[sqlName] = options.type ? module.exports[options.type](sql, options) : sql
+
+        if (options.strict && acc[sqlName]) {
+          throw new Error('Name ' + sqlName + ' already exists');
+        }
+
+	acc[sqlName] = options.type ? module.exports[options.type](sql, options) : sql
       }
     })
     return acc
