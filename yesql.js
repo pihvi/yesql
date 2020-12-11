@@ -37,7 +37,10 @@ const pg = (query, options = {}) => {
     const matchQuoted = /('[^'\\]*(\\.[^'\\]*)*')/
     const matchDoubleQuoted = /("[^"\\]*(\\.[^"\\]*)*")/
     const values = []
+
     const text = query
+      .replace(/--[^\n]*$/gm, '')
+      .replace(/\/\*[^\*\/]*\*\//gm, '')
       .split(matchQuoted)
       .map(part => {
         if (!part || matchQuoted.test(part)) {
@@ -68,6 +71,7 @@ const pg = (query, options = {}) => {
         }
       })
       .join('')
+      .trim()
     return {
       text, values
     }
