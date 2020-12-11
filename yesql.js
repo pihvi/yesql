@@ -39,8 +39,10 @@ const pg = (query, options = {}) => {
     const values = []
 
     const text = query
-      .replace(/--[^\n]*$/gm, '')
-      .replace(/\/\*[^\*\/]*\*\//gm, '')
+      // remove -- comments
+      .replace(/--.*$/gm, '')
+      // remove /* */ comments
+      .replace(/\/\*[^*]*\*+(?:[^/*][^*]*\*+)*\//g, '')
       .split(matchQuoted)
       .map(part => {
         if (!part || matchQuoted.test(part)) {
