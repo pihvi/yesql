@@ -83,6 +83,12 @@ pg.query(named('UPDATE pokemon SET price = :price;', {useNullForMissing: true})(
 
 #### Changelog
 
+##### 5.0.0
+- Fail fast on duplicate SQL query name
+- Thanks @asafyish https://github.com/pihvi/yesql/pull/26
+- Support comments in PG
+- Thanks @dwelch2344 https://github.com/pihvi/yesql/pull/23
+
 ##### 4.1.3
 - Support fully double quoted strings
 - thanks @AcerLaurinum  https://github.com/pihvi/yesql/issues/22
