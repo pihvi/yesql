@@ -234,3 +234,29 @@ it('PG comments with empty lines', () => {
       $3 ::INT[]`
   assert.deepEqual(res, {text, values: [5, 5, 5]})
 })
+
+it('PG comments with tokens and quotes', () => {
+  const query = `
+    select
+      :foo ::INT[],
+      /*
+      now we're really asking for it for :foo ::INT[] 
+      */
+      :foo ::INT[],
+
+      -- TODO I suppose we're ok now for :foo ::INT[]
+      :foo ::INT[]`
+  const res = yesql.pg(query)({foo: 5})
+
+  const text = `
+    select
+      $1 ::INT[],
+      /*
+      now we're really asking for it for :foo ::INT[] 
+      */
+      $2 ::INT[],
+
+      -- TODO I suppose we're ok now for :foo ::INT[]
+      $3 ::INT[]`
+  assert.deepEqual(res, {text, values: [5, 5, 5]})
+})
