@@ -202,3 +202,35 @@ it('PG double quoted strings with colon', () => {
     values: [5]
   })
 })
+
+it('PG comments with empty lines', () => {
+  const query = `
+    select
+      :foo ::INT[],
+
+      /*
+      now we are really asking for it
+      */
+
+      :foo ::INT[],
+
+      -- TODO I suppose we are ok now
+
+      :foo ::INT[]`
+  const res = yesql.pg(query)({foo: 5})
+
+  const text = `
+    select
+      $1 ::INT[],
+
+      /*
+      now we are really asking for it
+      */
+
+      $2 ::INT[],
+
+      -- TODO I suppose we are ok now
+
+      $3 ::INT[]`
+  assert.deepEqual(res, {text, values: [5, 5, 5]})
+})
