@@ -42,7 +42,7 @@ const pg = (query, options = {}) => {
       // remove -- comments
       .replace(/--.*$/gm, '')
       // remove /* */ comments
-      .replace(/\/\*[^*]*\*+(?:[^/*][^*]*\*+)*\//g, '')
+      .replace(/\/\*(\*(?!\/)|[^*])*\*\//g, '')
       .split(matchQuoted)
       .map(part => {
         if (!part || matchQuoted.test(part)) {
