@@ -25,6 +25,9 @@ const readSqlFiles = (dir, options = {}) => {
       .forEach(sql => {
         if (sql.trim().startsWith('--')) {
           const sqlName = sql.split('\n')[0].trim().substring(2).trim()
+          if (acc[sqlName]) {
+            throw new Error('Duplicate SQL query name "' + sqlName + '" found, please rename other one.')
+          }
           acc[sqlName] = options.type ? module.exports[options.type](sql, options) : sql
         }
       })
