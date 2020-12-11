@@ -209,9 +209,11 @@ it('PG comments with empty lines', () => {
       :foo ::INT[],
 
       /*
-      now we are really asking for it
+      now we are really asking for *it
       */
-
+      /**
+       * Really asking
+       **/
       :foo ::INT[],
 
       -- TODO I suppose we are ok now
@@ -224,7 +226,7 @@ it('PG comments with empty lines', () => {
       $1 ::INT[],
 
       
-
+      
       $2 ::INT[],
 
       
