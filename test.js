@@ -256,3 +256,10 @@ it('PG comments with tokens and quotes', () => {
       $3 ::INT[]`.trim()
   assert.deepEqual(res, {text, values: [5, 5, 5]})
 })
+
+it('PG statement returning string with escaped backslash', () => {
+  const query = `select 'C:\\work' as path`
+  const res = yesql.pg(query)()
+  const text = `select 'C:\\work' as path`
+  assert.deepEqual(res, {text, values: []})
+})
