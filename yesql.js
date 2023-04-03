@@ -38,7 +38,7 @@ const readSqlFiles = (dir, options = {}) => {
 const pg = (query, options = {}) => {
   return (data = {}) => {
     const matchQuoted = /('[^']*(\\.[^'\\]*)*')/
-    const matchDoubleQuoted = /("[^"\\]*(\\.[^"\\]*)*")/
+    const matchDoubleQuoted = /("[^"]*(\\.[^"\\]*)*")/
     const values = []
 
     const text = query

@@ -83,6 +83,11 @@ pg.query(named('UPDATE pokemon SET price = :price;', {useNullForMissing: true})(
 
 #### Changelog
 
+##### 6.1.0
+- PG statement returning string with escaped backslash
+  - Now also working with double quoted strings
+  - Thanks @t-sky https://github.com/pihvi/yesql/issues/30
+
 ##### 6.0.0
 - PG statement returning string with escaped backslash
   - Thanks @t-sky https://github.com/pihvi/yesql/issues/30
