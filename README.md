@@ -83,6 +83,10 @@ pg.query(named('UPDATE pokemon SET price = :price;', {useNullForMissing: true})(
 
 #### Changelog
 
+##### 7.0.0
+- MySQL supports quoted strings
+  - Thanks @tbantle22 https://github.com/pihvi/yesql/issues/31
+
 ##### 6.1.0
 - PG statement returning string with escaped backslash
   - Now also working with double quoted strings
