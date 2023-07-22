@@ -263,3 +263,8 @@ it('PG statement returning string with escaped backslash', () => {
   const text = `select 'C:\\work' as "path\\to\\folder"`
   assert.deepEqual(res, {text, values: []})
 })
+
+it('MySQL quoted date string with time with colons', () => {
+  const q = "SELECT * FROM tablename3 WHERE dt < '2023-06-27 03:06:53'"
+  const { sql, values } = yesql.mysql(q)({});
+})
