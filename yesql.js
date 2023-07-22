@@ -1,6 +1,9 @@
 const fs = require('fs')
 const path = require('path')
 
+const matchQuoted = /('[^']*(\\.[^'\\]*)*')/
+const matchDoubleQuoted = /("[^"]*(\\.[^"\\]*)*")/
+
 const readSqlFiles = (dir, options = {}) => {
   return fs.readdirSync(dir).filter(file => {
     return file.endsWith('.sql')
@@ -37,8 +40,6 @@ const readSqlFiles = (dir, options = {}) => {
 
 const pg = (query, options = {}) => {
   return (data = {}) => {
-    const matchQuoted = /('[^']*(\\.[^'\\]*)*')/
-    const matchDoubleQuoted = /("[^"]*(\\.[^"\\]*)*")/
     const values = []
 
     const text = query
@@ -86,17 +87,35 @@ const pg = (query, options = {}) => {
 const mysql = (query, options = {}) => {
   return (data = {}) => {
     const values = []
-    const sql = query.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
-      if (key in data) {
-        values.push(data[key])
-        return prefix.replace(/:/g, '?')
-      } else if (options.useNullForMissing) {
-        values.push(null)
-        return prefix.replace(/:/g, '?')
-      } else {
-        return errorMissingValue(key, query, data)
-      }
-    })
+    const sql = query.split(matchQuoted)
+      .map(part => {
+        if (!part || matchQuoted.test(part)) {
+          return part
+        } else {
+          return part
+            .split(matchDoubleQuoted)
+            .map(part => {
+                if (!part || matchDoubleQuoted.test(part)) {
+                  return part
+                } else {
+                  return part.replace(/(::?)([a-zA-Z0-9_]+)/g, (_, prefix, key) => {
+                    if (key in data) {
+                      values.push(data[key])
+                      return prefix.replace(/:/g, '?')
+                    } else if (options.useNullForMissing) {
+                      values.push(null)
+                      return prefix.replace(/:/g, '?')
+                    } else {
+                      return errorMissingValue(key, query, data)
+                    }
+                  })
+                }
+              }
+            ).join('')
+        }
+      })
+      .join('')
+      .trim()
     return {
       sql, values
     }
